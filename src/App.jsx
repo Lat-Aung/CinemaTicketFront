@@ -12,8 +12,6 @@ import { Toaster } from 'react-hot-toast'
 import Footer from './components/Footer'
 import SeatLayout from './pages/SeatLayout'
 
-import './App.css';
-
 
 export default function App() {
   const loc = useLocation()
