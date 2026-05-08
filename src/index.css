@@ -19,3 +19,7 @@
 body {
     @apply bg-mist-900;
 }
+
+.no-scrollbar {
+    scrollbar-width: none;
+}

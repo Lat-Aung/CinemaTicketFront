@@ -5,7 +5,6 @@ import ReactPlayer from "react-player/youtube";
 import { PlayCircleIcon } from "lucide-react";
 
 
-
 const TrailerSection = () => {
     const [currentTrailer, setCurrentTrailer] = useState(dummyTrailers[0])
     useEffect(() => {

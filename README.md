@@ -23,19 +23,12 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Change Log
 
-###### *Version 1.1.0*
+###### *Version 1.2.0*
 
 
 
-**Home Page Fully Implemented. Albeit most of the contents are still static.**
+*Movie Details static page fully implemented.*
 
-Components in the home page includes:
-
-1. Hero SectionW
-2. Hot Movies Section (Now Showing)
-3. Trailers Section
-
-
-
-**Footer Fully Implemented.**
+* Included a static loading for movies not in the static list.
+* Included a static Date Selection mockup/scaffold using React Hot Toast.
 
