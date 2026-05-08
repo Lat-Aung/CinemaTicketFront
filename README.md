@@ -23,40 +23,19 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Change Log
 
-###### *Version 1.0.0*
+###### *Version 1.1.0*
 
 
 
-* React Router Set up for several dummy pages.
-* Navigation bar fully functional with [Clerk](https://clerk.com/) Auth Development Integration.
+**Home Page Fully Implemented. Albeit most of the contents are still static.**
+
+Components in the home page includes:
+
+1. Hero SectionW
+2. Hot Movies Section (Now Showing)
+3. Trailers Section
 
 
 
-Current Dummy Pages
-
-1. Favorites
-2. Home
-3. Movie Details
-4. Movies
-5. MyBookings
-6. SeatLayout
-
-
-
-Navbar Function
-
->Integrated from [Clerk](https://clerk.com/) API.
-
-
-
-Current Auth Fields include:
-
-1. Username
-2. Email
-3. Password
-4. OAuth
-
-
-
->Multi Session/Account is also enabled.
+**Footer Fully Implemented.**
 
