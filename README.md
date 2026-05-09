@@ -23,12 +23,14 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Change Log
 
-###### *Version 1.2.0*
+###### *Version 1.3.0*
 
 
 
-*Movie Details static page fully implemented.*
+Added static dummy: 
 
-* Included a static loading for movies not in the static list.
-* Included a static Date Selection mockup/scaffold using React Hot Toast.
+1. Seat Selection Page: Static yet implemented with full seat selection functionality with available timings.
+2. Bookings Page: A page showing bookings made. Currently is static.
+
+
 
