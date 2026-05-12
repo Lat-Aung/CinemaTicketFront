@@ -23,14 +23,14 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Change Log
 
-###### *Version 1.3.0*
+###### *Version 1.4.0*
 
 
 
-Added static dummy: 
+Added static Admin  with Comps:
 
-1. Seat Selection Page: Static yet implemented with full seat selection functionality with available timings.
-2. Bookings Page: A page showing bookings made. Currently is static.
-
-
+1. Dashboard
+2. Add Shows
+3. List Shows
+4. List Bookings
 
