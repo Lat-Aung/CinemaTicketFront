@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from './components/NavBar'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
@@ -8,7 +8,7 @@ import Favorites from './pages/Favorites'
 import MyBookings from './pages/MyBookings'
 
 import { useLocation } from 'react-router-dom'
-import { Toaster } from 'react-hot-toast'
+import toast, { Toaster } from 'react-hot-toast'
 import Footer from './components/Footer'
 import SeatLayout from './pages/SeatLayout'
 import Layout from './pages/admin/Layout'
@@ -16,12 +16,33 @@ import AddShows from './pages/admin/AddShows'
 import Dashboard from './pages/admin/Dashboard'
 import ListShows from './pages/admin/ListShows'
 import ListBookings from './pages/admin/ListBookings'
+import { useAppContext } from './context/AppContext'
+import { SignIn } from '@clerk/react'
 
 
 
 export default function App() {
   const loc = useLocation()
   const isAdminRoute = loc.pathname.startsWith('/admin')
+  const { user, isAdmin } = useAppContext()
+
+  // user is already loaded (retrieved from clerk useUser()) by AppContext prior 
+
+  // logger and admin gatekeeper
+  useEffect(() => {
+    if(user) {
+      // console.log('Is Admin Route: ',isAdminRoute)
+      // console.log('User exits: ', true)
+      // console.log('Is Admin: ', isAdmin)
+      
+      // gatekeeper message is written here. as the effect runs twice before and after user loads.
+      if(isAdminRoute && !isAdmin)
+        toast.error('You are not authorized to access adminn dashboard')
+      
+    }
+
+
+  }, [user, isAdmin])
 
   return <>
         <Toaster/>
@@ -33,8 +54,12 @@ export default function App() {
           <Route path="/movies/:id/:date" element={<SeatLayout/>}/>
           <Route path="/favorites" element={<Favorites/>}/>
           <Route path="/my-bookings" element={<MyBookings/>}/>
-          <Route path='/admin/*' element={<Layout/>}>
-            <Route path="dashboard" element={<Dashboard/>}/>
+            <Route path='/admin/*' element={isAdmin ? <Layout/> : 
+            <div className='min-h-screen flex justify-center items-center'>
+              <SignIn fallbackRedirectUrl={'/admin'}/>
+            </div>
+          }>
+            <Route index path="dashboard" element={<Dashboard/>}/>
             <Route path="add-shows" element={<AddShows/>}/>
             <Route path="list-shows" element={<ListShows/>}/>
             <Route path="list-bookings" element={<ListBookings/>}/>

@@ -4,15 +4,41 @@ import Loading from "../../components/Loading"
 import Title from "../../components/admin/Title"
 import { StarIcon, CheckIcon, DeleteIcon } from "lucide-react"
 import { kConverter } from "../../lib/kConverter"
-
+import { useAppContext } from "../../context/AppContext"
+import toast from "react-hot-toast"
 
 export default function AddShows() {
+
+    const {axios, getToken, user, image_base_url} = useAppContext()
+
     const currency = import.meta.env.VITE_CURRENCY
     const [nowPlayingMovies, setNowPlayingMovies] = useState([])
     const [selectedMovie, setSelectedMovie] = useState(null)
     const [dateTimeSelection, setDateTimeSelection] = useState({})
     const [dateTimeInput, setDateTimeInput] = useState("")
     const [showPrice, setShowPrice] = useState("")
+
+    const [addingShow, setAddingShow] = useState(false)
+
+    const fetchNowPlayingMovies = async() => {
+
+        // console.log('My Token: ' +await getToken())
+        // console.log('Image Base Url: ' +image_base_url)
+        try {
+
+            const {data} = await axios.get('/api/show/now-playing', {
+                headers: {
+                    Authorization: `Bearer ${await getToken()}`
+                }
+            })
+
+            setNowPlayingMovies(data.movies)
+            // console.log('Movies: ' + typeof data.movies)
+        } catch(err) {
+            const {status, data} = err.response
+            console.error('Error fetching now playing movies, Status: ', status, ', Data: ', data)
+        }
+    }
 
     const handleDateTimeAdd = () => {
         if (!dateTimeInput) return;
@@ -42,14 +68,66 @@ export default function AddShows() {
         });
     };
 
-    const fetchNowPlayingMovies = async () => {
-        setNowPlayingMovies(dummyShowsData)
+    const handleSubmit = async () => {
+        try {
+            setAddingShow(true)
+
+            if(
+                !selectedMovie || 
+                Object.keys(dateTimeSelection).length === 0 || 
+                !showPrice
+            ) {
+
+                // console.log('ran')
+                setAddingShow(false)    
+                return toast('Missing required fields')
+            }
+            
+                
+
+            const showInput = Object
+            .entries(dateTimeSelection)
+            .map(([date, time]) => ({date, time}))
+
+            const payload = {
+                movieId: selectedMovie, 
+                showInput,
+                showPrice: Number(showPrice)
+            }
+
+            console.log('Payload: ', payload)
+
+            const {data} = await axios.post('/api/show/add', payload, {
+                headers: {
+                    Authorization: `Bearer ${await getToken()}`
+                }
+            })
+
+            // if success
+            toast.success(data.message)
+            setSelectedMovie(null)
+            setDateTimeSelection({})
+            setShowPrice("")
+
+            
+        } catch(err) {
+            const {data} = err.response 
+            console.error(err)
+            toast.error('Error Adding movie. Please Try Again!')
+        }
+
+        setAddingShow(false) 
     }
+
+        // dummy shows data
+/*     const fetchNowPlayingMovies = async () => {
+        setNowPlayingMovies(dummyShowsData)
+    } */
     
     useEffect(() => {
-        fetchNowPlayingMovies();
-        // handleDateTimeAdd();
-    }, [])
+        if(user)
+            fetchNowPlayingMovies()
+    }, [user])
 
     return nowPlayingMovies.length > 0 ? <>
         <Title text1="Add" text2="Shows" />
@@ -61,7 +139,7 @@ export default function AddShows() {
                 onClick={() => setSelectedMovie(movie.id)}
                 className={`relative max-w-40 cursor-pointer group-hover:not-hover:opacity-40 hover:-translate-y-1 transition duration-300`}>
                     <div className="relative rounded-lg overflow-hidden">
-                    <img src={movie.poster_path} alt="" className="w-full object-cover brightness-90" />
+                    <img src={image_base_url + movie.poster_path} alt="" className="w-full object-cover brightness-90" />
 
                     <div className="text-sm flex items-center justify-between p-2 bg-black/70 w-full absolute bottom-0 left-0">
                         <p className="flex items-center gap-1 text-gray-400">
@@ -141,7 +219,10 @@ export default function AddShows() {
         )}
 
         <button className="bg-primary text-white px-8 py-2 mt-6 rounded
-        hover:bg-primary/900 transition-all cursor-pointer">
+        hover:bg-primary/900 transition-all cursor-pointer disabled:bg-black disabled:text-white"
+        disabled={addingShow}
+        onClick={() => handleSubmit()}>
+        
             Add Show
         </button>
     </> : <Loading/>

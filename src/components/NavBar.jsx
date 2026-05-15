@@ -3,6 +3,9 @@ import { assets } from '../assets/assets';
 import { MenuIcon, SearchIcon, TicketPercent, TicketPlus, XIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useClerk, UserButton, useUser } from "@clerk/react";
+import { useAppContext } from "../context/AppContext";
+
+
 
 const Navbar = () => {
 
@@ -17,6 +20,8 @@ const Navbar = () => {
     const {user, isLoaded, isSignedIn} = useUser()
     const {openSignIn} = useClerk()
     const navigate = useNavigate()
+
+    const {favMovies} = useAppContext()
 
 
     const [isOpen, setIsOpen] = useState(false)
@@ -45,7 +50,17 @@ const Navbar = () => {
             <XIcon className="md:hidden absolute top-6 right-6 w-6 h-6 cursor-pointer"/>
 
             {linkArray.map(([path, label], index) => (
-                <Link 
+                index < linkArray.length - 1 ?
+                    <Link 
+                    key={index} 
+                    to={path} 
+                    onClick={() => {
+                    window.scrollTo(0, 0); 
+                    setIsOpen(!isOpen);
+                    }}
+                >
+                    {label}
+                </Link> : favMovies.length > 0 && <Link 
                     key={index} 
                     to={path} 
                     onClick={() => {
@@ -55,6 +70,8 @@ const Navbar = () => {
                 >
                     {label}
                 </Link>
+                    
+                
             ))}
         </div>
 

@@ -4,9 +4,12 @@ import { useNavigate } from "react-router-dom";
 import BlueCircle from "./BlurCircle";
 import MovieCard from "./MovieCard";
 import { dummyShowsData } from "../assets/assets";
+import { useAppContext } from "../context/AppContext";
+import Loading from "./Loading";
 
 const FeaturedSection = () => {
     const navigate = useNavigate()
+    const {shows} = useAppContext()
 
     return <div>
         <div className="px-6 md:px-16 lg:px-24 xl:px-44 overflow-hidden">
@@ -23,9 +26,14 @@ const FeaturedSection = () => {
             </div>
             
             <div className='flex flex-wrap max-sm: justify-center gap-8 mt-8'> 
-                {dummyShowsData.slice(0, 4).map((show)=>(
+                {/*{dummyShowsData.slice(0, 4).map((show)=>(
                     <MovieCard key={show._id} movie={show}/>
-                ))}
+                ))} */}
+                {shows ? shows.slice(0, 4).map((show)=>(
+                    <MovieCard key={show._id} movie={show}/>
+                )):<Loading/>}
+
+                
             </div>
             
 

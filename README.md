@@ -23,14 +23,7 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Change Log
 
-###### *Version 1.4.0*
+###### *Version 2.0.0*
 
-
-
-Added static Admin  with Comps:
-
-1. Dashboard
-2. Add Shows
-3. List Shows
-4. List Bookings
-
+#### *COMPLETED HANDSHAKE:* Fully integrated all the endpoints from backend services.
+#### All working functions Except payment is now fully dynamic for both USERS and ADMINS.

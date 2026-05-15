@@ -3,15 +3,18 @@ import { useEffect, useState } from "react"
 import { dummyShowsData } from "../../assets/assets"
 import Title from "../../components/admin/Title"
 import { dateFormat } from "../../lib/dateFormat"
+import { useAppContext } from "../../context/AppContext"
 
 
 export default function ListShows() {
+
+    const {axios, getToken, user } = useAppContext()
 
     const currency = import.meta.env.VITE_CURRENCY
     const [shows, setShows] = useState([])
     const [loading, setLoading] = useState(true)
 
-    const getAllShows = async () => {
+    /* const getAllShows = async () => {
         try {
             setShows([{
                 movie: dummyShowsData[0],
@@ -28,11 +31,30 @@ export default function ListShows() {
         } catch (error) {
             console.error(error);
         }
+    } */
+
+    const getAllShows = async () => {
+        try {
+            const {data} = await axios.get('/api/admin/all-shows', {
+                headers: {
+                    Authorization: `Bearer ${await getToken()}`
+                }
+            })
+
+            setShows(data.shows)
+            setLoading(false)
+        } catch (err) {
+            const {data} = err.response
+            toast.error(data.message)
+            console.error('Error Fetching Admin All Shows Data: ', data)
+        }
     }
+    
 
     useEffect(() => {
-        getAllShows()
-    }, [])
+        if(user)
+            getAllShows()
+    }, [user])
 
     return !loading ? <>
         <Title text="List" text2="Shows"/> 
