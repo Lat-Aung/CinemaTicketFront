@@ -95,7 +95,7 @@ function SeatLayout() {
             );
 
             toast.success(data.message)
-            nav('/my-bookings')
+            window.location.href = data.url;
             
         } catch(err) {
             const {data} = err.response

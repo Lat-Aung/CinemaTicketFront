@@ -18,6 +18,7 @@ import ListShows from './pages/admin/ListShows'
 import ListBookings from './pages/admin/ListBookings'
 import { useAppContext } from './context/AppContext'
 import { SignIn } from '@clerk/react'
+import Loading from './components/Loading'
 
 
 
@@ -53,6 +54,7 @@ export default function App() {
           <Route path="/movies/:id" element={<MovieDetails/>}/>
           <Route path="/movies/:id/:date" element={<SeatLayout/>}/>
           <Route path="/favorites" element={<Favorites/>}/>
+          <Route path='/loading/:nextUrl' element={<Loading/>}/>
           <Route path="/my-bookings" element={<MyBookings/>}/>
             <Route path='/admin/*' element={isAdmin ? <Layout/> : 
             <div className='min-h-screen flex justify-center items-center'>
