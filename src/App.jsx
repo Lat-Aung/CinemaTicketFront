@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Navbar from './components/NavBar'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Movies from './pages/Movies'
 import MovieDetails from './pages/MovieDetails'
@@ -25,25 +25,22 @@ import Loading from './components/Loading'
 export default function App() {
   const loc = useLocation()
   const isAdminRoute = loc.pathname.startsWith('/admin')
-  const { user, isAdmin } = useAppContext()
+  const { user, isAdmin, fetchingAdminInfo } = useAppContext()
 
   // user is already loaded (retrieved from clerk useUser()) by AppContext prior 
 
   // logger and admin gatekeeper
   useEffect(() => {
-    if(user) {
-      // console.log('Is Admin Route: ',isAdminRoute)
-      // console.log('User exits: ', true)
-      // console.log('Is Admin: ', isAdmin)
-      
-      // gatekeeper message is written here. as the effect runs twice before and after user loads.
+    console.log('Fetching Admin Info: ', fetchingAdminInfo)
+    console.log('User: ', user)
+    if(user && !fetchingAdminInfo) {
       if(isAdminRoute && !isAdmin)
-        toast.error('You are not authorized to access adminn dashboard')
-      
+        toast.error('You are not authorized to access admin dashboard')
     }
-
-
-  }, [user, isAdmin])
+    
+  }, [
+    fetchingAdminInfo
+  ])
 
   return <>
         <Toaster/>
@@ -56,12 +53,23 @@ export default function App() {
           <Route path="/favorites" element={<Favorites/>}/>
           <Route path='/loading/:nextUrl' element={<Loading/>}/>
           <Route path="/my-bookings" element={<MyBookings/>}/>
-            <Route path='/admin/*' element={isAdmin ? <Layout/> : 
-            <div className='min-h-screen flex justify-center items-center'>
-              <SignIn fallbackRedirectUrl={'/admin'}/>
-            </div>
-          }>
-            <Route index path="dashboard" element={<Dashboard/>}/>
+          <Route 
+            path='/admin/*' 
+            element={
+              fetchingAdminInfo ? (
+                <Loading/>
+              ) : 
+              (user && isAdmin) ? (
+                <Layout />
+              ) : (
+                <div className='min-h-screen flex justify-center items-center'>
+                  <SignIn fallbackRedirectUrl={'/admin'} />
+                </div>
+              )
+            }
+          >
+            <Route index element={<Navigate to="dashboard" replace/>}/>
+            <Route path="dashboard" element={<Dashboard/>}/>
             <Route path="add-shows" element={<AddShows/>}/>
             <Route path="list-shows" element={<ListShows/>}/>
             <Route path="list-bookings" element={<ListBookings/>}/>

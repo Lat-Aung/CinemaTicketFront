@@ -81,13 +81,14 @@ function Mybookings() {
                             {item.amount}
                         </p>
 
-                        {!item.isPaid && (
-                            <Link 
-                            to={item.paymentLink}
-                            className="bg-primary px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer">
-                                Pay Now
-                            </Link>
-                        )}
+                        {!item.isPaid ? 
+                        <Link 
+                        to={item.paymentLink}
+                        className="bg-primary px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer">
+                            Pay Now
+                        </Link>:
+                        <div
+                        className="bg-lime-600 px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer"> Paid </div>}
                     </div>
 
                     <div className="text-sm">

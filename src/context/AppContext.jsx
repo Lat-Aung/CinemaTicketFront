@@ -15,13 +15,16 @@ export default function AppProvider({children}) {
     const [favMovies, setFavMovies] = useState([])
     const image_base_url = useMemo(() => import.meta.env.VITE_TMDB_IMAGE_BASE_URL, [])
 
-    const {user} = useUser()
+    const [fetchingAdminInfo, setIfFetchingAdminInfo] = useState(false)
+
+    const {user, isSignedIn, isLoaded} = useUser()
     const {getToken} = useAuth()
     const location = useLocation()
     const navigate = useNavigate()
 
     const fetchIsAdmin = async () =>  {
         try {
+            setIfFetchingAdminInfo(true)
             const {data} = await axios.get('/api/admin/is-admin', {
                 headers: {
                     Authorization: `Bearer ${await getToken()}`
@@ -40,6 +43,8 @@ export default function AppProvider({children}) {
         } catch(err) {
             const {data} = err.response
             console.error('Fetch Is Admin: ', data)
+        } finally {
+            setIfFetchingAdminInfo(false)
         }
     }
 
@@ -56,7 +61,10 @@ export default function AppProvider({children}) {
     }
 
     const fetchFavoriteMovies = async () => {
+        
+
         try {
+            
             const { data } = await axios.get(
                 '/api/user/favorites', 
                 {headers:
@@ -73,7 +81,7 @@ export default function AppProvider({children}) {
 
         } catch (err) {
             console.error(err.response.data)
-        }
+        } 
     }
     
     useEffect(() => {
@@ -94,7 +102,8 @@ export default function AppProvider({children}) {
     const value = { 
         axios,
         fetchIsAdmin,
-        user, getToken, navigate, isAdmin, shows,
+        user, isSignedIn, isLoaded, getToken, navigate, isAdmin, shows,
+        fetchingAdminInfo,
         favMovies, fetchFavoriteMovies, image_base_url 
     }
 

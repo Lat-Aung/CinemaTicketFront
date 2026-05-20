@@ -23,7 +23,14 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Change Log
 
-###### *Version 2.0.0*
+###### *Version 2.1.0*
 
-#### *COMPLETED HANDSHAKE:* Fully integrated all the endpoints from backend services.
-#### All working functions Except payment is now fully dynamic for both USERS and ADMINS.
+### Bugs Fixed:
+
+1. Admin page buggy transition is now replaced with proper loading screen.
+2. Admin page blank landing page is now fixed.
+
+### Added: 
+
+1. Admin Panel option for Clerk Admin Users.
+2. "Paid" icon for paid movies.

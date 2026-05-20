@@ -8,7 +8,7 @@ const Loading = ({}) => {
 
     useEffect(() => {
 
-        console.log('Next Url: ', nextUrl)
+        // console.log('Next Url: ', nextUrl)
         if(nextUrl)
             setTimeout(() => {
                 nav('/' + nextUrl)

@@ -43,6 +43,7 @@ export default function Dashboard() {
             // if successful
             setDashboardData(data.dashboardData)
             setLoading(false)
+
         } catch(err) {
             const {data} = err.response
             toast.error(data.message)
