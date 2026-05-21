@@ -23,14 +23,24 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Change Log
 
-###### *Version 2.1.0*
+###### *Version 3.0.0*
 
 ### Bugs Fixed:
 
-1. Admin page buggy transition is now replaced with proper loading screen.
-2. Admin page blank landing page is now fixed.
+1. Admin panel reseting automatically.
+2. Broken mobile view port of Bookings page.
+
+### Modifed
+
+1. Footer Visuals
+2. Movie Cards
+3. Admin Privilage warning page for normal users.
+4. All of admin Panel responsive Visuals.
+5. Bookings page Visuals.
+
 
 ### Added: 
 
-1. Admin Panel option for Clerk Admin Users.
-2. "Paid" icon for paid movies.
+1. Static Theaters page.
+2. Static Services Page.
+3. 404 Not Found page.

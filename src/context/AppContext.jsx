@@ -18,6 +18,7 @@ export default function AppProvider({children}) {
     const [fetchingAdminInfo, setIfFetchingAdminInfo] = useState(false)
 
     const {user, isSignedIn, isLoaded} = useUser()
+    
     const {getToken} = useAuth()
     const location = useLocation()
     const navigate = useNavigate()
@@ -55,7 +56,7 @@ export default function AppProvider({children}) {
                 
         } catch (err) {
             const {data} = err.response
-            toast.error(data.message)
+            // toast.error(data.message)
             console.error(err)
         }
     }
@@ -85,9 +86,9 @@ export default function AppProvider({children}) {
     }
     
     useEffect(() => {
-        // console.log("User: " +user);
+        console.log("User: " +user);
         // console.log("Is Admin: " +isAdmin)
-        if(user) {
+        if(isSignedIn) {
             fetchIsAdmin()
             fetchFavoriteMovies()
             fetchShows()
@@ -95,7 +96,7 @@ export default function AppProvider({children}) {
         }
             
         
-    }, [user])
+    }, [isSignedIn])
 
     // useEffect(() => console.log('User Dedicated: ' +user), [user])
 

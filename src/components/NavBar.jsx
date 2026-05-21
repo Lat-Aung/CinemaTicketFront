@@ -12,8 +12,8 @@ const Navbar = () => {
     const linkArray = useMemo(() => [
         ['/', 'Home'],
         ['/movies', 'Movies'],
-        ['/', 'Theaters'],
-        ['/', 'Releases'],
+        ['/theaters', 'Theaters'],
+        ['/services', 'Services'],
         ['/favorites', 'Favorite']
     ], []);
 
@@ -76,7 +76,6 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-8">
-            <SearchIcon className="max-md:hidden w-6 h-6 cursor-pointer"/>
             {
                 !isSignedIn ? (
                     <button 
@@ -86,7 +85,11 @@ const Navbar = () => {
                         Login
                     </button>
                 ) : (
-                    <UserButton>
+                    <UserButton showName={false} appearance={{
+                        elements: {
+                            userButtonAvatarBox: "h-50 w-20",
+                        }
+                    }}>
                         <UserButton.MenuItems>
                             <UserButton.Action 
                             label="My Bookings" 

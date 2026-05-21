@@ -58,29 +58,52 @@ export default function ListShows() {
 
     return !loading ? <>
         <Title text="List" text2="Shows"/> 
-        <div className="max-w-4xl mt-6 overflwo-x-auto">
-            <table className="w-full border-collapse rounded-md overflow-hidden text-nowrap">
+        {shows.length > 0 ? <div className="mt-6 w-full overflow-x-auto rounded-2xl border border-white/10">
+            <table className="min-w-[700px] w-full border-collapse">
                 <thead>
                     <tr className="bg-primary/20 text-left text-white">
-                        <td className="p-2 font-medim pl-5"> Movie Name </td>
-                        <td className="p-2 font-medim"> Show Time </td>
-                        <td className="p-2 font-medim"> Total Bookings </td>
-                        <td className="p-2 font-medim"> Earnings </td>
+                        <th className="px-4 py-3 font-medium">Movie Name</th>
+                        <th className="px-4 py-3 font-medium">Show Time</th>
+                        <th className="px-4 py-3 font-medium">Bookings</th>
+                        <th className="px-4 py-3 font-medium">Earnings</th>
                     </tr>
                 </thead>
-                <tbody className="text-sm font-light">
+
+                <tbody className="text-sm text-gray-300">
                     {shows.map((show, index) => (
-                        <tr key={index} className="border-b border-primary/10 bg-primary/5 even:bg-primary/10">
-                        <td className="p-2 min-w-45 pl-5">{show.movie.title}</td>
-                        <td className="p-2">{dateFormat(show.showDateTime)}</td>
-                        <td className="p-2">{Object.keys(show.occupiedSeats).length}</td>
-                        <td className="p-2">
-                            {currency} {Object.keys(show.occupiedSeats).length * show.showPrice}
-                        </td>
+                        <tr
+                            key={index}
+                            className="
+                                border-b border-white/5
+                                bg-white/[0.02]
+                                even:bg-white/[0.04]
+
+                                hover:bg-primary/10
+                                transition-colors
+                            "
+                        >
+                            <td className="px-4 py-4 font-medium text-white">
+                                <div className="truncate max-w-[220px]">
+                                    {show.movie.title}
+                                </div>
+                            </td>
+
+                            <td className="px-4 py-4 whitespace-nowrap">
+                                {dateFormat(show.showDateTime)}
+                            </td>
+
+                            <td className="px-4 py-4">
+                                {Object.keys(show.occupiedSeats).length}
+                            </td>
+
+                            <td className="px-4 py-4 font-semibold text-primary whitespace-nowrap">
+                                {currency}
+                                {Object.keys(show.occupiedSeats).length * show.showPrice}
+                            </td>
                         </tr>
                     ))}
                 </tbody>
-            </table>    
-        </div> 
+            </table>
+        </div> : <h1 className="my-4 text-2xl"> No Shows Added yet! </h1>}
     </> : <Loading/>
 }

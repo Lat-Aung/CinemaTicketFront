@@ -17,8 +17,11 @@ import Dashboard from './pages/admin/Dashboard'
 import ListShows from './pages/admin/ListShows'
 import ListBookings from './pages/admin/ListBookings'
 import { useAppContext } from './context/AppContext'
-import { SignIn } from '@clerk/react'
 import Loading from './components/Loading'
+import Theatres from './pages/Theatres'
+import Services from './pages/Services'
+import RedirectUsers from './components/RedirectUsers'
+import NotFound from './pages/NotFound'
 
 
 
@@ -31,8 +34,10 @@ export default function App() {
 
   // logger and admin gatekeeper
   useEffect(() => {
-    console.log('Fetching Admin Info: ', fetchingAdminInfo)
-    console.log('User: ', user)
+    // console.log('Fetching Admin Info: ', fetchingAdminInfo)
+    // console.log('User: ', user)
+
+    // console.log('A')
     if(user && !fetchingAdminInfo) {
       if(isAdminRoute && !isAdmin)
         toast.error('You are not authorized to access admin dashboard')
@@ -53,6 +58,8 @@ export default function App() {
           <Route path="/favorites" element={<Favorites/>}/>
           <Route path='/loading/:nextUrl' element={<Loading/>}/>
           <Route path="/my-bookings" element={<MyBookings/>}/>
+          <Route path="/theaters" element={<Theatres/>}/>
+          <Route path="/services" element={<Services/>}/>
           <Route 
             path='/admin/*' 
             element={
@@ -62,9 +69,7 @@ export default function App() {
               (user && isAdmin) ? (
                 <Layout />
               ) : (
-                <div className='min-h-screen flex justify-center items-center'>
-                  <SignIn fallbackRedirectUrl={'/admin'} />
-                </div>
+                <RedirectUsers/>
               )
             }
           >
@@ -74,6 +79,7 @@ export default function App() {
             <Route path="list-shows" element={<ListShows/>}/>
             <Route path="list-bookings" element={<ListBookings/>}/>
           </Route>
+          <Route path="*" element={<NotFound/>}/>
         </Routes>
         {!isAdminRoute && <Footer/>}
       </>
